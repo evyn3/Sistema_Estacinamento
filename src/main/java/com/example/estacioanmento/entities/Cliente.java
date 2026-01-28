@@ -1,8 +1,11 @@
 package com.example.estacioanmento.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,19 +19,17 @@ public class Cliente implements Serializable {
     private String telefone;
     private String senha;
     private String cnh;
-    private double credito;
 
     public Cliente() {
     }
 
-    public Cliente(String cpf, String nome, String email, String telefone, String senha, String cnh, double credito) {
+    public Cliente(String cpf, String nome, String email, String telefone, String senha, String cnh) {
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
         this.cnh = cnh;
-        this.credito = credito;
     }
 
     public String getCpf() {
@@ -79,25 +80,16 @@ public class Cliente implements Serializable {
         this.cnh = cnh;
     }
 
-    public double getCredito() {
-        return credito;
-    }
-
-    public void setCredito(double credito) {
-        this.credito = credito;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Double.compare(credito, cliente.credito) == 0 && Objects.equals(cpf, cliente.cpf) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(telefone, cliente.telefone) && Objects.equals(senha, cliente.senha) && Objects.equals(cnh, cliente.cnh);
+        return Objects.equals(cpf, cliente.cpf) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(telefone, cliente.telefone) && Objects.equals(senha, cliente.senha) && Objects.equals(cnh, cliente.cnh);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cpf, nome, email, telefone, senha, cnh, credito);
+        return Objects.hash(cpf, nome, email, telefone, senha, cnh);
     }
 
     @Override
@@ -109,7 +101,6 @@ public class Cliente implements Serializable {
                 ", telefone='" + telefone + '\'' +
                 ", senha='" + senha + '\'' +
                 ", cnh='" + cnh + '\'' +
-                ", credito=" + credito +
                 '}';
     }
 }
