@@ -4,6 +4,8 @@ import com.example.estacioanmento.entities.Cliente;
 import com.example.estacioanmento.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,6 +24,13 @@ public class ClienteResource {
     public ResponseEntity<List<Cliente>> findAll() {
         List<Cliente> list = service.findAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Cliente> me() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Cliente cliente = (Cliente) auth.getPrincipal();
+        return ResponseEntity.ok(cliente);
     }
 
     @GetMapping(value = "/{cpf}")
