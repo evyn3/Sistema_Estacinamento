@@ -1,4 +1,4 @@
 package com.example.estacioanmento.dto.response;
 
-public class LoginResponseDTO {
+public record LoginResponseDTO (String nome, String token) {
 }

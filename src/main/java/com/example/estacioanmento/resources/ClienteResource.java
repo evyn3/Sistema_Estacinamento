@@ -30,12 +30,12 @@ public class ClienteResource {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<Cliente> insert(@RequestBody Cliente obj){
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}").buildAndExpand(obj.getCpf()).toUri();
         return ResponseEntity.created(uri).body(obj);
-    }
+    }*/
 
     @DeleteMapping(value = "/{cpf}")
     public ResponseEntity<Void> delete(@PathVariable String cpf) {
