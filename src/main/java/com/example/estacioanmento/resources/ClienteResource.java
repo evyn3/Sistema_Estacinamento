@@ -33,6 +33,16 @@ public class ClienteResource {
         return ResponseEntity.ok(cliente);
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<Cliente> updateMe(@RequestBody Cliente obj) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Cliente clienteLogado = (Cliente) auth.getPrincipal();
+
+        Cliente atualizado = service.update(clienteLogado.getCpf(), obj);
+        return ResponseEntity.ok(atualizado);
+    }
+
+
     @GetMapping(value = "/{cpf}")
     public ResponseEntity<Cliente> findById(@PathVariable String cpf) {
         Cliente obj = service.findById(cpf);

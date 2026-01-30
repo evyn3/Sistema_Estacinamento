@@ -6,6 +6,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +18,9 @@ public class ClienteService {
 
     @Autowired
     private final ClienteRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ClienteService(ClienteRepository repository) {
         this.repository = repository;
@@ -54,7 +58,7 @@ public class ClienteService {
     }
 
     //atualiza os dados
-    public Cliente update(String cpf, Cliente obj){
+    /*public Cliente update(String cpf, Cliente obj){
         try{
             Cliente cliente = repository.findById(cpf)
                     .orElseThrow(() -> new ResourceNotFoundException(cpf));
@@ -64,7 +68,24 @@ public class ClienteService {
         } catch (EntityNotFoundException e){
             throw new ResourceNotFoundException(cpf);
         }
+    }*/
+    public Cliente update(String cpf, Cliente obj) {
+        Cliente entity = repository.findById(cpf)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        entity.setNome(obj.getNome());
+        entity.setEmail(obj.getEmail());
+        entity.setTelefone(obj.getTelefone());
+        entity.setCnh(obj.getCnh());
+
+        // senha só se vier preenchida
+        if (obj.getSenha() != null && !obj.getSenha().isBlank()) {
+            entity.setSenha(passwordEncoder.encode(obj.getSenha()));
+        }
+
+        return repository.save(entity);
     }
+
 
     private void updateData (Cliente entidade, Cliente obj){
         entidade.setNome(obj.getNome());
